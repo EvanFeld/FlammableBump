@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FLAMMABLEBUMP — Intermission</title>
+  <link rel="stylesheet" href="../assets/theme.css">
+  <style>
+    /* ── LAYOUT GRID ── */
+    .layout {
+      position: absolute;
+      inset: 86px 78px 92px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 520px;
+      grid-template-rows: 100px minmax(0, 1fr) 58px;
+      gap: 20px;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 0 22px;
+      clip-path: var(--clip-lg);
+      background: linear-gradient(90deg, rgba(74,144,217,0.12) 0%, var(--glass) 35%);
+    }
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+      border-right: 1px solid var(--border);
+      padding-right: 22px;
+      height: 68px;
+    }
+
+    .platform-tags { display: flex; flex-direction: column; gap: 4px; }
+
+    .brand-label {
+      font-family: var(--font-head);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--tan);
+      margin-bottom: 2px;
+    }
+
+    .brand { font-size: 34px; }
+
+    /* Stat cards in top bar */
+    .stats-zone {
+      display: flex;
+      align-items: stretch;
+      gap: 7px;
+      flex: 1;
+      justify-content: flex-end;
+    }
+    .stats-zone .stat-card   { min-width: 128px; height: 76px; padding: 6px 12px; }
+    .stats-zone .stat-value  { font-size: 30px; }
+    .stats-zone .stat-label  { font-size: 10px; }
+    .stats-zone .combined-card { min-width: 156px; }
+
+    /* Sub goal + hype mini bars in top bar */
+    .goal-strip {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 7px;
+      min-width: 168px;
+      flex-shrink: 0;
+      padding: 10px 16px;
+      border-left: 1px solid var(--border);
+      height: 76px;
+    }
+    .goal-strip .g-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .goal-strip .bar-label   { font-size: 9px; width: 40px; flex-shrink: 0; }
+    .goal-strip .progress-track { flex: 1; height: 7px; }
+    .goal-strip .g-val       { font-family: var(--font-head); font-size: 10px; font-weight: 700; width: 40px; text-align: right; flex-shrink: 0; color: var(--blue-bright); }
+    .goal-strip .hype-val    { color: #ff6eb4; }
+
+    /* ── GAMEPLAY WINDOW — transparent cutout at 2560×1440 ──
+       Punches a hole in all bg layers so OBS game/screen capture shows through.
+       Region: x=78 y=206 w=1864 h=1064 (right=1942 bottom=1270)           */
+    .bg,
+    .grid-layer,
+    .scanline-layer,
+    .sweep-line {
+      clip-path: path(evenodd, "M0,0 H2560 V1440 H0 Z M78,206 H1942 V1270 H78 Z");
+    }
+
+    /* ── MAIN CAM ── */
+    .main-cam {
+      position: relative;
+      overflow: hidden;
+      background: transparent;
+      clip-path: var(--clip-lg);
+      border: 2px solid var(--border);
+      box-shadow: 0 0 40px rgba(74,144,217,0.1), inset 0 0 0 1px rgba(74,144,217,0.06);
+      animation: borderGlow 4s ease-in-out infinite;
+    }
+
+    /* Decorative corner marks inside the cam frame */
+    .cam-corner {
+      position: absolute;
+      width: 52px; height: 52px;
+      border-color: var(--tan);
+      opacity: 0.8;
+      filter: drop-shadow(0 0 7px var(--glow-warm));
+    }
+    .cam-corner.tl { top: 14px;    left: 14px;    border-top: 2px solid; border-left: 2px solid; }
+    .cam-corner.tr { top: 14px;    right: 14px;   border-top: 2px solid; border-right: 2px solid; }
+    .cam-corner.bl { bottom: 14px; left: 14px;    border-bottom: 2px solid; border-left: 2px solid; }
+    .cam-corner.br { bottom: 14px; right: 14px;   border-bottom: 2px solid; border-right: 2px solid; }
+
+    /* OBS placement guide — invisible when cam source is layered behind */
+    .cam-guide {
+      position: absolute;
+      inset: 52px;
+      display: grid;
+      place-items: center;
+      border: 1px dashed rgba(184,216,240,0.1);
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(184,216,240,0.14);
+      pointer-events: none;
+    }
+
+    .main-cam-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+    }
+
+    /* Command response — floats at bottom of main cam */
+    .main-cmd {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+
+    /* ── ALERT SLOT — centered over main cam ── */
+    .alert-slot {
+      position: absolute;
+      /* top = scene inset (86) + top-bar (100) + gap (20) + offset (34) */
+      top: 240px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 960px;
+      height: 215px;
+      pointer-events: none;
+      z-index: 20;
+    }
+    .alert-slot .alert-stage { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+    .alert-slot .alert-card  { width: 920px; }
+    .alert-slot .alert-user  { font-size: 54px; }
+
+    /* ── SIDE COLUMN ── */
+    .side {
+      display: grid;
+      grid-template-rows: 280px minmax(0, 1fr);
+      gap: 20px;
+      min-height: 0;
+    }
+
+    /* Small cam */
+    .small-cam {
+      position: relative;
+      clip-path: var(--clip-md);
+      overflow: hidden;
+    }
+    .small-cam-badge {
+      position: absolute;
+      top: 12px; left: 12px;
+    }
+    .small-cam-guide {
+      position: absolute;
+      inset: 46px 14px 14px;
+      display: grid;
+      place-items: center;
+      border: 1px dashed rgba(184,216,240,0.14);
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(184,216,240,0.18);
+    }
+
+    /* Chat panel */
+    .chat-section {
+      min-height: 0;
+      clip-path: var(--clip-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-section .chatbox-wrap { height: 100%; }
+    .chat-section .chat-feed    { padding: 8px 10px 8px; }
+
+    /* Command response row at the bottom of the chat panel */
+    .chat-cmd-zone {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      padding: 7px 14px;
+      border-top: 1px solid var(--border);
+      min-height: 32px;
+      background: rgba(5,12,22,0.45);
+    }
+
+    /* ── BOTTOM TICKER ── */
+    .bottom-bar {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 22px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: rgba(5,12,22,0.65);
+      font-family: var(--font-head);
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ice);
+    }
+    .bottom-bar strong { color: var(--tan); margin-right: 6px; }
+    .bottom-bar .dot   { color: rgba(184,216,240,0.28); }
+  </style>
+</head>
+<body>
+<main class="scene">
+
+  <!-- Background layers (correct class names from theme.css) -->
+  <div class="bg"></div>
+  <div class="grid-layer"></div>
+  <div class="scanline-layer"></div>
+  <div class="sweep-line"></div>
+
+  <!-- Outer frame decoration -->
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+  <div class="frame-h top"></div>
+  <div class="frame-h bottom"></div>
+  <div class="frame-v left"></div>
+  <div class="frame-v right"></div>
+
+  <!-- Alert overlay — floats above layout, centered over main cam -->
+  <section class="alert-slot" data-alert-root>
+    <div class="alert-stage">
+      <div class="alert-card">
+        <div class="alert-icon"   data-alert-icon>★</div>
+        <div class="alert-body">
+          <div class="alert-type"   data-alert-type>New Subscriber</div>
+          <div class="alert-user"   data-alert-user>BUMP9ER</div>
+          <div class="alert-detail" data-alert-detail>Tier 1 sub secured</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MAIN LAYOUT ── -->
+  <section class="layout">
+
+    <!-- TOP BAR -->
+    <header class="top-bar anim-in">
+      <!-- Brand + platform tags -->
+      <div class="brand-lockup">
+        <div class="platform-tags">
+          <div class="tag twitch">Twitch</div>
+          <div class="tag kick">Kick</div>
+        </div>
+        <div>
+          <div class="brand-label">Intermission</div>
+          <div class="brand" data-display-name>FLAMMABLEBUMP</div>
+        </div>
+      </div>
+
+      <!-- Live stats -->
+      <section class="stats-zone" aria-label="Live counters">
+        <div class="stat-card">
+          <div class="stat-label">Followers</div>
+          <div class="stat-value" data-stat="followers">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Subs</div>
+          <div class="stat-value" data-stat="subs">0</div>
+        </div>
+        <div class="stat-card twitch-card">
+          <div class="stat-label">Twitch</div>
+          <div class="stat-value" data-stat="twitchViewers">0</div>
+        </div>
+        <div class="stat-card kick-card">
+          <div class="stat-label">Kick</div>
+          <div class="stat-value" data-stat="kickViewers">0</div>
+        </div>
+        <div class="stat-card combined-card">
+          <div class="stat-label">Viewers (Total)</div>
+          <div class="stat-value" data-stat="viewers">0</div>
+        </div>
+      </section>
+
+      <!-- Sub goal mini bar -->
+      <div class="goal-strip">
+        <div class="g-row">
+          <span class="bar-label label" data-goal-label>Goal</span>
+          <div class="progress-track">
+            <div class="progress-fill goal-fill" data-goal-fill style="width:0%"></div>
+          </div>
+          <span class="g-val" data-goal-value>0/10</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CAM / SCREEN (layer your OBS game/screen capture behind this) -->
+    <section class="main-cam anim-in-2">
+      <div class="cam-corner tl"></div>
+      <div class="cam-corner tr"></div>
+      <div class="cam-corner bl"></div>
+      <div class="cam-corner br"></div>
+      <div class="cam-guide">Gameplay / Screen</div>
+      <div class="main-cam-badge tag">Screen</div>
+      <!-- Chat command responses appear here during gameplay -->
+      <div class="main-cmd">
+        <span data-cmd-response></span>
+      </div>
+    </section>
+
+    <!-- SIDE COLUMN -->
+    <aside class="side">
+
+      <!-- Small webcam (layer your OBS cam source behind this) -->
+      <section class="small-cam glass">
+        <div class="small-cam-badge tag">Cam</div>
+        <div class="small-cam-guide">Webcam</div>
+      </section>
+
+      <!-- Live chat feed -->
+      <section class="chat-section glass">
+        <div class="chatbox-wrap">
+          <header class="chatbox-header">
+            <div class="chatbox-title">Live Chat</div>
+            <!-- data-sb-status: updated by streamerbot.js -->
+            <!-- data-chat-status: updated by chat.js IRC fallback -->
+            <div class="chatbox-status" data-sb-status data-chat-status>Connecting…</div>
+          </header>
+          <div class="chat-feed" data-chat-feed></div>
+          <div class="chat-cmd-zone">
+            <!-- second cmd-response zone — interactions.js updates all instances -->
+            <span data-cmd-response></span>
+          </div>
+        </div>
+      </section>
+
+    </aside>
+
+    <!-- BOTTOM TICKER -->
+    <footer class="bottom-bar anim-in-4">
+      <span><strong>Now Playing</strong><span data-game>League of Legends</span></span>
+      <span class="dot">◆</span>
+      <span><strong>Kick</strong><span data-kick>kick.com/FlammableBump</span></span>
+      <span class="dot">◆</span>
+      <span><strong>Twitch</strong><span data-twitch>twitch.tv/FlammableBump</span></span>
+    </footer>
+
+  </section>
+</main>
+
+<!--
+  OBS SETUP FOR THIS SCENE:
+  1. Add this file as a Browser Source (2560×1440, transparent background ON)
+  2. Add your game/screen capture → position it to fill the main cam area
+     (exact: x=78, y=206, w=1864, h=1064 at 2560×1440)
+  3. Add your webcam capture → position it to fill the small cam area
+     (approx: x=1962, y=206, w=520, h=280 at 2560×1440)
+  4. Stack order: game capture → webcam capture → this browser source (top)
+-->
+<script src="../assets/config.js"></script>
+<script src="../assets/overlay.js"></script>
+<script src="../assets/alerts.js"></script>
+<script src="../assets/chat.js"></script>
+<script src="../assets/interactions.js"></script>
+<script src="../assets/streamerbot.js"></script>
+</body>
+</html>

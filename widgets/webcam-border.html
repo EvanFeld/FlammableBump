@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FLAMMABLEBUMP — Webcam Border</title>
+  <link rel="stylesheet" href="../assets/theme.css">
+  <style>
+    /*
+      OBS SETUP:
+      1. Add as Browser Source — set width/height to match your cam size (default 540×360)
+      2. Enable "Transparent background" in the browser source properties
+      3. Layer this source ON TOP of your camera source in the OBS source list
+      4. Move/resize freely in OBS to match wherever your cam is positioned
+      URL params: ?label=FACECAM  (default: "CAM")  ?size=lg|md|sm (corner clip size)
+    */
+
+    body {
+      width: 540px;
+      height: 360px;
+      background: transparent !important;
+    }
+
+    .cam-border {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      clip-path: var(--clip-lg);
+      border: 2px solid var(--border);
+      box-shadow:
+        0 0 30px rgba(74,144,217,0.12),
+        inset 0 0 0 1px rgba(74,144,217,0.08);
+      animation: borderGlow 3s ease-in-out infinite;
+    }
+
+    /* Corner accent marks — tan color matching scene frames */
+    .cc {
+      position: absolute;
+      width: 44px;
+      height: 44px;
+      border-color: var(--tan);
+      opacity: 0.85;
+      filter: drop-shadow(0 0 7px var(--glow-warm));
+    }
+    .cc.tl { top: 14px;    left: 14px;    border-top: 2px solid; border-left: 2px solid; }
+    .cc.tr { top: 14px;    right: 14px;   border-top: 2px solid; border-right: 2px solid; }
+    .cc.bl { bottom: 14px; left: 14px;    border-bottom: 2px solid; border-left: 2px solid; }
+    .cc.br { bottom: 14px; right: 14px;   border-bottom: 2px solid; border-right: 2px solid; }
+
+    /* Optional label badge — top-left */
+    .cam-label {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+    }
+
+    /* Subtle inner-edge scanline gradient — barely visible, ties into scene aesthetic */
+    .cam-inner-glow {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(74,144,217,0.04) 0%, transparent 30%),
+        linear-gradient(0deg,   rgba(74,144,217,0.03) 0%, transparent 25%);
+    }
+  </style>
+</head>
+<body>
+<div class="cam-border">
+  <div class="cc tl"></div>
+  <div class="cc tr"></div>
+  <div class="cc bl"></div>
+  <div class="cc br"></div>
+  <div class="cam-inner-glow"></div>
+  <div class="cam-label tag" id="camLabel">CAM</div>
+</div>
+
+<script>
+  const label = new URLSearchParams(window.location.search).get("label");
+  if (label) document.getElementById("camLabel").textContent = label;
+</script>
+</body>
+</html>

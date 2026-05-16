@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FLAMMABLEBUMP — Hype Meter</title>
+  <link rel="stylesheet" href="../assets/theme.css">
+  <style>
+    body { width: 860px; height: 80px; }
+
+    .hype-widget {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 860px;
+      height: 80px;
+      padding: 0 18px;
+      clip-path: var(--clip-md);
+    }
+
+    .hype-label {
+      width: 80px;
+      flex-shrink: 0;
+      color: #ff6eb4;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 10px;
+    }
+
+    .bar-value {
+      width: 80px;
+      flex-shrink: 0;
+      text-align: right;
+      color: #ff6eb4;
+    }
+  </style>
+</head>
+<body>
+<main class="hype-widget glass" data-hype-full>
+  <div class="hype-label label">Hype</div>
+  <div class="progress-track">
+    <div class="progress-fill hype-fill" data-hype-fill style="width:0%"></div>
+  </div>
+  <div class="bar-value" data-hype-value>0%</div>
+</main>
+<script src="../assets/config.js"></script>
+<script src="../assets/overlay.js"></script>
+<script src="../assets/interactions.js"></script>
+<script src="../assets/streamerbot.js"></script>
+</body>
+</html>

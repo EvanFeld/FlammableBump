@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FLAMMABLEBUMP — Stream Ending</title>
+  <link rel="stylesheet" href="../assets/theme.css">
+  <style>
+    /* ── THANKS — left side ── */
+    .thanks {
+      position: absolute;
+      left: 8%;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 660px;
+    }
+    .thanks-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .thanks-text {
+      font-family: var(--font-head);
+      font-size: 58px;
+      font-weight: 700;
+      line-height: 1.1;
+      text-transform: uppercase;
+      color: var(--ice);
+    }
+    .thanks-text strong { color: var(--white); }
+    .thanks-sub {
+      margin-top: 18px;
+      font-family: var(--font-head);
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--tan);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .platform-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 22px;
+    }
+    .plat-link {
+      padding: 10px 20px;
+      font-family: var(--font-head);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      clip-path: var(--clip-sm);
+    }
+    .plat-link.twitch { border: 1px solid rgba(145,71,255,0.5); background: rgba(145,71,255,0.12); color: #bf9fff; }
+    .plat-link.kick   { border: 1px solid rgba(83,252,73,0.4);  background: rgba(83,252,73,0.1);  color: #7fff78; }
+
+    /* ── SESSION STATS — right side ── */
+    .content {
+      position: absolute;
+      right: 8%;
+      bottom: 14%;
+      text-align: right;
+    }
+    .big-title { font-size: 112px; }
+    .subtitle  { margin-top: 16px; font-size: 28px; }
+
+    .summary {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 22px;
+      gap: 8px;
+    }
+    .summary .stat-card { min-width: 200px; height: 86px; }
+    .summary .stat-value { font-size: 42px; }
+    .summary .stat-label { font-size: 12px; }
+  </style>
+</head>
+<body data-game-always-rotate>
+<main class="scene">
+  <div class="bg"></div>
+  <div class="grid-layer"></div>
+  <div class="scanline-layer"></div>
+  <div class="sweep-line"></div>
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+
+  <!-- Thank you message — left -->
+  <section class="thanks anim-in">
+    <div class="thanks-eyebrow">
+      <div class="tag">Mission complete</div>
+    </div>
+    <div class="thanks-text">
+      Thanks for<br>riding with<br><strong>the BUMPFAM</strong>
+    </div>
+    <div class="thanks-sub">Back soon on Twitch &amp; Kick</div>
+    <div class="platform-row anim-in-2">
+      <div class="plat-link twitch" data-twitch>twitch.tv/FlammableBump</div>
+      <div class="plat-link kick"   data-kick>kick.com/FlammableBump</div>
+    </div>
+  </section>
+
+  <!-- Session stats — right -->
+  <section class="content">
+    <h1 class="big-title anim-in-2">Stream<br>Ending</h1>
+    <p class="subtitle anim-in-3">
+      <span data-display-name>FLAMMABLEBUMP</span>
+      <span class="slash"></span>
+      <span data-game>League of Legends</span>
+    </p>
+    <div class="summary anim-in-4" aria-label="Session stats">
+      <div class="stat-card glass">
+        <div class="stat-label">Followers</div>
+        <div class="stat-value" data-stat="followers">0</div>
+      </div>
+      <div class="stat-card glass">
+        <div class="stat-label">Subs</div>
+        <div class="stat-value" data-stat="subs">0</div>
+      </div>
+      <div class="stat-card glass">
+        <div class="stat-label">Peak Viewers</div>
+        <div class="stat-value" data-stat="peakViewers">0</div>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="../assets/config.js"></script>
+<script src="../assets/overlay.js"></script>
+<script src="../assets/streamerbot.js"></script>
+</body>
+</html>

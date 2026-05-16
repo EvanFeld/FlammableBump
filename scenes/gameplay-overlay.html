@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FLAMMABLEBUMP — Gameplay Overlay</title>
+  <link rel="stylesheet" href="../assets/theme.css">
+  <style>
+    /* ── TOP HUD ── */
+    .top-hud {
+      position: absolute;
+      top: 36px;
+      left: 56px; right: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      height: 80px;
+    }
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 80px;
+      padding: 10px 20px 10px 0;
+      border-right: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .brand-lockup .brand { font-size: 34px; }
+    .platform-tags { display: flex; flex-direction: column; gap: 4px; }
+
+    .stats-hud {
+      display: flex;
+      align-items: stretch;
+      gap: 7px;
+    }
+    .stats-hud .stat-card { min-width: 145px; height: 80px; padding: 8px 14px; }
+    .stats-hud .stat-value { font-size: 36px; }
+    .stats-hud .stat-label { font-size: 10px; }
+
+    /* Combined viewer card with T/K split below the value */
+    .stats-hud .combined-card { min-width: 188px; }
+    .stats-hud .combined-card .stat-value { font-size: 34px; }
+    .viewer-split {
+      display: flex;
+      gap: 10px;
+      margin-top: 1px;
+    }
+    .viewer-split span {
+      font-family: var(--font-head);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .viewer-split .t { color: #bf9fff; }
+    .viewer-split .k { color: #7fff78; }
+
+    /* ── COMMAND RESPONSE — bottom center ── */
+    .cmd-zone {
+      position: absolute;
+      bottom: 92px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    /* ── ALERT SLOT ── */
+    .alert-slot {
+      position: absolute;
+      top: 134px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1020px;
+      height: 215px;
+      pointer-events: none;
+    }
+    .alert-slot .alert-stage { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+    .alert-slot .alert-card  { width: 960px; }
+    .alert-slot .alert-user  { font-size: 56px; }
+
+  </style>
+</head>
+<body>
+<main class="scene">
+  <!-- Transparent — gameplay shows through. Frame only. -->
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+  <div class="frame-h top"></div>
+  <div class="frame-h bottom"></div>
+  <div class="frame-v left"></div>
+  <div class="frame-v right"></div>
+
+  <!-- TOP HUD -->
+  <header class="top-hud">
+    <div class="brand-lockup glass">
+      <div class="platform-tags">
+        <div class="tag twitch">Twitch</div>
+        <div class="tag kick">Kick</div>
+      </div>
+      <div class="brand" data-display-name>FLAMMABLEBUMP</div>
+    </div>
+
+    <section class="stats-hud" aria-label="Live counters">
+      <div class="stat-card glass">
+        <div class="stat-label">Followers</div>
+        <div class="stat-value" data-stat="followers">0</div>
+      </div>
+      <div class="stat-card glass">
+        <div class="stat-label">Subs</div>
+        <div class="stat-value" data-stat="subs">0</div>
+      </div>
+      <div class="stat-card glass combined-card">
+        <div class="stat-label">Viewers</div>
+        <div class="stat-value" data-stat="viewers">0</div>
+        <div class="viewer-split">
+          <span class="t">T: <span data-stat="twitchViewers">0</span></span>
+          <span class="k">K: <span data-stat="kickViewers">0</span></span>
+        </div>
+      </div>
+    </section>
+
+  </header>
+
+  <!-- Alert slot (hidden until triggered) -->
+  <section class="alert-slot" data-alert-root>
+    <div class="alert-stage">
+      <div class="alert-card">
+        <div class="alert-icon" data-alert-icon>★</div>
+        <div class="alert-body">
+          <div class="alert-type"   data-alert-type>New Subscriber</div>
+          <div class="alert-user"   data-alert-user>BUMPFAM</div>
+          <div class="alert-detail" data-alert-detail>Tier 1 sub secured</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Command response (chat !commands) -->
+  <div class="cmd-zone">
+    <span data-cmd-response></span>
+  </div>
+
+</main>
+<script src="../assets/config.js"></script>
+<script src="../assets/overlay.js"></script>
+<script src="../assets/alerts.js"></script>
+<script src="../assets/interactions.js"></script>
+<script src="../assets/streamerbot.js"></script>
+</body>
+</html>

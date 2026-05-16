@@ -1,0 +1,32 @@
+FLAMMABLEBUMP Overlay — OBS Browser Source URLs
+http://localhost:3001  (start-overlay.bat must be running)
+
+┌──────────────────┬────────────────────────────────────────────────────┐
+│  Scene / Widget  │                        URL                         │
+├──────────────────┼────────────────────────────────────────────────────┤
+│ Starting Soon    │ http://localhost:3001/scenes/starting-soon.html    │
+├──────────────────┼────────────────────────────────────────────────────┤
+│ Gameplay Overlay │ http://localhost:3001/scenes/gameplay-overlay.html │
+├──────────────────┼────────────────────────────────────────────────────┤
+│ Intermission     │ http://localhost:3001/scenes/intermission.html     │
+├──────────────────┼────────────────────────────────────────────────────┤
+│ BRB              │ http://localhost:3001/scenes/brb.html              │
+├──────────────────┼────────────────────────────────────────────────────┤
+│ Ending           │ http://localhost:3001/scenes/ending.html           │
+├──────────────────┼────────────────────────────────────────────────────┤
+│ Alert Box        │ http://localhost:3001/widgets/alert-box.html       │
+├──────────────────┼────────────────────────────────────────────────────┤
+│ Chatbox          │ http://localhost:3001/widgets/chatbox.html         │
+├──────────────────┼────────────────────────────────────────────────────┤
+│ Counter Widget   │ http://localhost:3001/widgets/counter-widget.html  │
+├──────────────────┼────────────────────────────────────────────────────┤
+│ Goal Bar         │ http://localhost:3001/widgets/goal-bar.html        │
+├──────────────────┼────────────────────────────────────────────────────┤
+│ Hype Meter       │ http://localhost:3001/widgets/hype-meter.html      │
+├──────────────────┼────────────────────────────────────────────────────┤
+│ Viewer List      │ http://localhost:3001/widgets/viewer-list.html     │
+├──────────────────┼────────────────────────────────────────────────────┤
+│ Webcam Border    │ http://localhost:3001/widgets/webcam-border.html   │
+├──────────────────┼────────────────────────────────────────────────────┤
+│ Control Panel    │ http://localhost:3001/widgets/control-panel.html   │
+└──────────────────┴────────────────────────────────────────────────────┘
