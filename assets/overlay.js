@@ -40,7 +40,7 @@
   }
 
   function renderStats() {
-    const combined = (Number(state.kickViewers)||0) + (Number(state.youtubeViewers)||0);
+    const combined = (Number(state.twitchViewers)||0) + (Number(state.youtubeViewers)||0);
     if (combined > state.peakViewers) {
       state.peakViewers = combined;
       localStorage.setItem("flammablebump.peakViewers", combined);
