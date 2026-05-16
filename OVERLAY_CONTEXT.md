@@ -129,7 +129,7 @@ data-stat="kickViewers"     — renders Kick-only viewers
 data-stat="youtubeViewers"  — renders YouTube-only viewers (red)
 data-twitch                 — renders twitch.tv/FlammableBump
 data-kick                   — renders kick.com/FlammableBump
-data-youtube                — renders youtube.com/@flamablebump
+data-youtube                — renders youtube.com/@flammablebump
 data-display-name          — renders FLAMMABLEBUMP
 data-game                  — renders current game (rotates from config)
 data-alert-root            — marks the alert container element
@@ -165,7 +165,7 @@ window.FLAMMABLEBUMP_CONFIG = {
   links: {
     twitch:  "twitch.tv/FlammableBump",
     kick:    "kick.com/FlammableBump",
-    youtube: "youtube.com/@flamablebump"
+    youtube: "youtube.com/@flammablebump"
   }
 };
 ```

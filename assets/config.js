@@ -36,8 +36,8 @@ window.FLAMMABLEBUMP_CONFIG = {
     twitch:   "twitch.tv/FlammableBump",
     // TODO: Your full Kick URL (e.g. "kick.com/FlammableBump")
     kick:     "kick.com/FlammableBump",
-    // YouTube channel — single 'm' in flamablebump
-    youtube:  "youtube.com/@flamablebump"
+    // YouTube channel — single 'm' in flammablebump
+    youtube:  "youtube.com/@flammablebump"
   },
 
   // Alert display duration in milliseconds — edit this to change how long alerts stay on screen

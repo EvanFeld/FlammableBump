@@ -54,7 +54,7 @@
     setAll("[data-stat='peakViewers']",    fmt(state.peakViewers));
     setAll("[data-twitch]",       config.links?.twitch   || "twitch.tv/FlammableBump");
     setAll("[data-kick]",         config.links?.kick     || "kick.com/FlammableBump");
-    setAll("[data-youtube]",      config.links?.youtube  || "youtube.com/@flamablebump");
+    setAll("[data-youtube]",      config.links?.youtube  || "youtube.com/@flammablebump");
     setAll("[data-display-name]", config.displayName     || "FLAMMABLEBUMP");
     renderGoal();
   }

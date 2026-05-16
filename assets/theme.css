@@ -88,81 +88,48 @@ html, body {
   animation: sweep 7s ease-in-out infinite;
 }
 
-/* ── FLAME CORNER DECORATIONS ── */
-/* Teardrop/flame polygon pointing up by default — rotated per corner */
-.corner {
-  position: absolute;
-  width: 44px;
-  height: 62px;
-  clip-path: polygon(
-    50% 0%,
-    60% 12%,
-    74% 30%,
-    86% 52%,
-    80% 72%,
-    64% 88%,
-    50% 100%,
-    36% 88%,
-    20% 72%,
-    14% 52%,
-    26% 30%,
-    40% 12%
-  );
-  background: linear-gradient(
-    180deg,
-    var(--white) 0%,
-    var(--orange-bright) 22%,
-    var(--orange) 55%,
-    var(--ember) 100%
-  );
-  animation: cornerFlicker 2.8s ease-in-out infinite;
-}
-.corner.tl { top: 14px;    left: 14px;    transform: rotate(315deg); }
-.corner.tr { top: 14px;    right: 14px;   transform: rotate(45deg); }
-.corner.bl { bottom: 14px; left: 14px;    transform: rotate(225deg); }
-.corner.br { bottom: 14px; right: 14px;   transform: rotate(135deg); }
+/* ── EDGE GLOW FRAME ── */
 
-/* ── FLAME FRAME LINES ── */
-.frame-h, .frame-v {
+.scene::before {
+  content: '';
   position: absolute;
-  animation: frameFlicker 3.4s ease-in-out infinite;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  background:
+    linear-gradient(180deg,  rgba(255,140,0,0.22) 0%,   transparent 9%),
+    linear-gradient(0deg,    rgba(255,140,0,0.16) 0%,   transparent 8%),
+    linear-gradient(90deg,   rgba(255,140,0,0.14) 0%,   transparent 7%),
+    linear-gradient(270deg,  rgba(255,140,0,0.14) 0%,   transparent 7%);
+  animation: edgeGlow 5s ease-in-out infinite;
 }
-.frame-h {
-  left: 60px; right: 60px; height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255,85,0,0.3) 6%,
-    var(--orange) 20%,
-    var(--orange-bright) 40%,
-    var(--white) 50%,
-    var(--orange-bright) 60%,
-    var(--orange) 80%,
-    rgba(255,85,0,0.3) 94%,
-    transparent 100%
-  );
-  box-shadow: 0 0 10px var(--glow-orange), 0 0 28px rgba(255,85,0,0.2);
+
+/* Hex dot grid — fades in at all four corners via mask, drifts slowly */
+.scene::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background-image:
+    radial-gradient(circle, rgba(255,140,0,0.70) 1.5px, transparent 1.5px),
+    radial-gradient(circle, rgba(255,140,0,0.45) 1.5px, transparent 1.5px);
+  background-size: 34px 60px, 34px 60px;
+  background-position: 0 0, 17px 30px;
+  -webkit-mask-image:
+    radial-gradient(ellipse 46% 42% at 0%    0%,    black 0%, transparent 100%),
+    radial-gradient(ellipse 46% 42% at 100%  0%,    black 0%, transparent 100%),
+    radial-gradient(ellipse 46% 42% at 0%    100%,  black 0%, transparent 100%),
+    radial-gradient(ellipse 46% 42% at 100%  100%,  black 0%, transparent 100%);
+  -webkit-mask-composite: source-over, source-over, source-over;
+  mask-image:
+    radial-gradient(ellipse 46% 42% at 0%    0%,    black 0%, transparent 100%),
+    radial-gradient(ellipse 46% 42% at 100%  0%,    black 0%, transparent 100%),
+    radial-gradient(ellipse 46% 42% at 0%    100%,  black 0%, transparent 100%),
+    radial-gradient(ellipse 46% 42% at 100%  100%,  black 0%, transparent 100%);
+  mask-composite: add, add, add;
+  animation: hexDrift 28s linear infinite;
 }
-.frame-h.top    { top: 36px; }
-.frame-h.bottom { bottom: 36px; }
-.frame-v {
-  top: 60px; bottom: 60px; width: 2px;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(255,85,0,0.3) 6%,
-    var(--orange) 20%,
-    var(--orange-bright) 40%,
-    var(--white) 50%,
-    var(--orange-bright) 60%,
-    var(--orange) 80%,
-    rgba(255,85,0,0.3) 94%,
-    transparent 100%
-  );
-  box-shadow: 0 0 10px var(--glow-orange), 0 0 28px rgba(255,85,0,0.2);
-}
-.frame-v.left  { left: 36px; }
-.frame-v.right { right: 36px; }
 
 /* ── GLASS PANELS ── */
 .glass {
@@ -488,21 +455,15 @@ html, body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Flame corner flicker — only opacity + filter so transform (rotation) is not overridden */
-@keyframes cornerFlicker {
-  0%, 100% { opacity: 0.88; filter: drop-shadow(0 0 8px var(--glow-orange)) brightness(1); }
-  20%       { opacity: 1;    filter: drop-shadow(0 0 18px var(--glow-orange)) brightness(1.3); }
-  45%       { opacity: 0.68; filter: drop-shadow(0 0 5px var(--glow-orange)) brightness(0.82); }
-  70%       { opacity: 0.96; filter: drop-shadow(0 0 14px var(--glow-orange)) brightness(1.15); }
-  88%       { opacity: 0.74; filter: drop-shadow(0 0 6px var(--glow-orange)) brightness(0.9); }
+@keyframes edgeGlow {
+  0%, 100% { opacity: 0.65; }
+  40%       { opacity: 1;   }
+  70%       { opacity: 0.75; }
 }
 
-@keyframes frameFlicker {
-  0%, 100% { opacity: 0.55; }
-  15%       { opacity: 0.80; }
-  38%       { opacity: 0.40; }
-  62%       { opacity: 0.72; }
-  82%       { opacity: 0.46; }
+@keyframes hexDrift {
+  from { background-position: 0 0,    17px 30px; }
+  to   { background-position: 34px 60px, 51px 90px; }
 }
 
 .anim-in   { animation: fadeUp 0.6s ease-out both; }

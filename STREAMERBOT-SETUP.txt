@@ -51,7 +51,7 @@ YouTube:
      viewer count updates may be delayed 60–90 seconds vs real-time Twitch.
   NOTE: YouTube requires an active broadcast (live stream) to receive events.
         Events won't fire during test/offline mode the way Twitch does.
-  TODO: Your YouTube channel = youtube.com/@flamablebump (note: single 'm')
+  TODO: Your YouTube channel = youtube.com/@flammablebump (note: single 'm')
 
 
 STEP 3 — CREATE YOUR ACTIONS
@@ -142,7 +142,7 @@ PLACEHOLDER CHECKLIST — FILL THESE IN BEFORE GOING LIVE
 [ ] assets/config.js       → streamerbot.host (your PC's local IP if OBS is on a different machine)
 [ ] assets/config.js       → streamerbot.port (your SB WebSocket port, default 8080)
 [ ] assets/config.js       → links.twitch and links.kick (your full channel URLs)
-[ ] assets/config.js       → links.youtube (already set to youtube.com/@flamablebump — confirm spelling)
+[ ] assets/config.js       → links.youtube (already set to youtube.com/@flammablebump — confirm spelling)
 [ ] control-panel.html     → SB_GAME_ID (UUID from your Streamer.bot "Game Switch" action)
 [ ] control-panel.html     → SB_ALERT_ID (UUID from your Streamer.bot "Fire Alert" action)
 [ ] Platforms → YouTube    → Add Google account, enable Auto Connect, enable Track Live Chat + Viewer Count
