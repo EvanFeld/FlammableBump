@@ -27,7 +27,7 @@
   function send(p)      { if (socket?.readyState === WebSocket.OPEN) socket.send(JSON.stringify(p)); }
   function dispatch(name, detail) { window.dispatchEvent(new CustomEvent(`flammablebump:${name}`, { detail })); }
 
-  // Streamer.bot subscribe request requires title-case source keys: "Twitch", "Kick"
+  // Streamer.bot subscribe request requires title-case source keys: "Twitch", "Kick", "YouTube"
   function subscribe() {
     const twitchChat  = ["ChatMessage", "FirstWord", "Announcement"];
     const twitchAlert = ["Follow","Sub","ReSub","GiftSub","GiftBomb","GiftPaidUpgrade","PayItForward","Raid","Cheer","HypeChat","HypeTrain","HypeTrainEnd"];
@@ -35,11 +35,14 @@
     const kickChat    = ["ChatMessage", "FirstWords"];
     const kickAlert   = ["Follow","Subscription","Resubscription","GiftSubscription","MassGiftSubscription","Raid"];
     const kickStats   = ["PresentViewers", "ViewerCountUpdate"];
+    const ytChat      = ["ChatMessage", "NewSponsor", "MemberMilestone", "SuperChat"];
+    const ytStats     = ["BroadcastStarted", "BroadcastEnded", "StatisticsUpdate"];
 
     const events = {};
     if (hasChat) {
-      events.Twitch = [...twitchChat];
-      events.Kick   = [...kickChat];
+      events.Twitch  = [...twitchChat];
+      events.Kick    = [...kickChat];
+      events.YouTube = [...ytChat];
     }
     if (hasAlert || hasHype) {
       events.Twitch   = [...new Set([...(events.Twitch  || []), ...twitchAlert])];
@@ -47,8 +50,9 @@
       events.General  = ["Custom"];
     }
     if (hasStats) {
-      events.Twitch = [...new Set([...(events.Twitch || []), ...twitchStats])];
-      events.Kick   = [...new Set([...(events.Kick   || []), ...kickStats])];
+      events.Twitch  = [...new Set([...(events.Twitch  || []), ...twitchStats])];
+      events.Kick    = [...new Set([...(events.Kick    || []), ...kickStats])];
+      events.YouTube = [...new Set([...(events.YouTube || []), ...ytStats])];
     }
     send({ request: "Subscribe", id: "flammablebump-sub", events });
   }
@@ -172,7 +176,7 @@
     const viewers  = d.viewerCount || d.viewercount || d.viewers;
     const tier     = d.sub_tier || d.subTier || d.tier || "1000";
     const tierLabel = tier === "2000" ? "Tier 2" : tier === "3000" ? "Tier 3" : "Tier 1";
-    const platform  = source === "kick" ? "Kick" : "Twitch";
+    const platform  = source === "kick" ? "Kick" : source === "youtube" ? "YouTube" : "Twitch";
 
     const map = {
       follow:         { theme:"follow", label:"New Follower",    detail:`${platform} follow locked in!` },
@@ -207,7 +211,7 @@
     const feed = document.querySelector("[data-chat-feed]");
     if (!feed || !chat.message) return;
     const row = document.createElement("div");
-    row.className = "chat-message" + (chat.platform==="kick"?" kick-msg":"") + (chat.isFirst?" first-msg":"");
+    row.className = "chat-message" + (chat.platform==="kick"?" kick-msg":"") + (chat.platform==="youtube"?" youtube-msg":"") + (chat.isFirst?" first-msg":"");
     row.innerHTML = `<div class="chat-avatar"></div><div class="chat-content"><div class="chat-name"></div><div class="chat-text"></div></div>`;
     row.querySelector(".chat-avatar").textContent = (chat.user||"?").slice(0,2).toUpperCase();
     row.querySelector(".chat-name").textContent   = chat.user;
@@ -258,9 +262,10 @@
     const followers  = d.followers   ?? d.followerCount ?? d.totalFollowers;
     const subs       = d.subs        ?? d.subCount ?? d.subscribers;
 
-    if (viewers !== undefined && ["presentviewers","viewercountupdate","streamupdate","raid"].includes(type)) {
-      if (source === "kick") next.kickViewers   = Number(viewers);
-      else                   next.twitchViewers = Number(viewers);
+    if (viewers !== undefined && ["presentviewers","viewercountupdate","streamupdate","raid","statisticsupdate","broadcaststarted"].includes(type)) {
+      if (source === "kick")    next.kickViewers    = Number(viewers);
+      else if (source === "youtube") next.youtubeViewers = Number(viewers);
+      else                      next.twitchViewers  = Number(viewers);
     }
     if (followers !== undefined) next.followers = Number(followers);
     if (subs      !== undefined) next.subs      = Number(subs);
@@ -306,7 +311,7 @@
 
   function updateStats(next) {
     const clean = {};
-    ["followers","subs","twitchViewers","kickViewers"].forEach(k => {
+    ["followers","subs","twitchViewers","kickViewers","youtubeViewers"].forEach(k => {
       if (next[k] !== undefined && !isNaN(Number(next[k]))) clean[k] = Number(next[k]);
     });
     if (!Object.keys(clean).length) return;

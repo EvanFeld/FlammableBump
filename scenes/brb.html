@@ -24,7 +24,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(74,144,217,0.1), transparent);
+      background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255,140,0,0.08), transparent);
       animation: pulse 3s ease-in-out infinite;
       pointer-events: none;
     }
@@ -69,8 +69,9 @@
       text-transform: uppercase;
       clip-path: var(--clip-sm);
     }
-    .link-pill.twitch { border: 1px solid rgba(145,71,255,0.5); background: rgba(145,71,255,0.12); color: #bf9fff; }
-    .link-pill.kick   { border: 1px solid rgba(83,252,73,0.4);  background: rgba(83,252,73,0.1);  color: #7fff78; }
+    .link-pill.twitch   { border: 1px solid rgba(145,71,255,0.5); background: rgba(145,71,255,0.12); color: #bf9fff; }
+    .link-pill.kick     { border: 1px solid rgba(83,252,73,0.4);  background: rgba(83,252,73,0.1);  color: #7fff78; }
+    .link-pill.youtube  { border: 1px solid rgba(255,50,50,0.5);  background: rgba(255,0,0,0.12);   color: #FF5555; }
 
     @keyframes dotPulse {
       0%,80%,100% { opacity: 0.3; transform: scale(0.7); }
@@ -104,8 +105,9 @@
         <span data-display-name>FLAMMABLEBUMP</span> is reloading
       </p>
       <div class="link-row anim-in-3">
-        <div class="link-pill twitch" data-twitch>twitch.tv/FlammableBump</div>
-        <div class="link-pill kick"   data-kick>kick.com/FlammableBump</div>
+        <div class="link-pill twitch"  data-twitch>twitch.tv/FlammableBump</div>
+        <div class="link-pill kick"    data-kick>kick.com/FlammableBump</div>
+        <div class="link-pill youtube" data-youtube>youtube.com/@flamablebump</div>
       </div>
     </div>
   </section>
@@ -114,6 +116,8 @@
     <span><strong>Twitch</strong> <span data-twitch>twitch.tv/FlammableBump</span></span>
     <span class="dot">◆</span>
     <span><strong>Kick</strong> <span data-kick>kick.com/FlammableBump</span></span>
+    <span class="dot">◆</span>
+    <span style="color:#FF5555"><strong>YouTube</strong> <span data-youtube>youtube.com/@flamablebump</span></span>
     <span class="dot">◆</span>
     <span><strong>Game</strong> <span data-game>League of Legends</span></span>
   </div>

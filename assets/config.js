@@ -8,10 +8,11 @@ window.FLAMMABLEBUMP_CONFIG = {
   rotationGames: ["League of Legends", "The Finals", "Marvel Rivals", "Arc Raiders"],
 
   defaults: {
-    followers:     114,
-    subs:          1,
-    twitchViewers: 0,
-    kickViewers:   0,
+    followers:      114,
+    subs:           1,
+    twitchViewers:  0,
+    kickViewers:    0,
+    youtubeViewers: 0,
   },
 
   subGoal: {
@@ -32,9 +33,11 @@ window.FLAMMABLEBUMP_CONFIG = {
 
   links: {
     // TODO: Your full Twitch URL (e.g. "twitch.tv/FlammableBump")
-    twitch: "twitch.tv/FlammableBump",
+    twitch:   "twitch.tv/FlammableBump",
     // TODO: Your full Kick URL (e.g. "kick.com/FlammableBump")
-    kick:   "kick.com/FlammableBump"
+    kick:     "kick.com/FlammableBump",
+    // YouTube channel — single 'm' in flamablebump
+    youtube:  "youtube.com/@flamablebump"
   },
 
   // Alert display duration in milliseconds — edit this to change how long alerts stay on screen

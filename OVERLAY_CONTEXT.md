@@ -89,14 +89,15 @@ BUMP9ER/
 
 ### localStorage Keys (sync between pages via storage events)
 ```
-flammablebump.followers      — follower count
-flammablebump.subs           — subscriber count
-flammablebump.twitchViewers  — Twitch viewer count (separate)
-flammablebump.kickViewers    — Kick viewer count (separate)
-flammablebump.alert          — JSON payload to trigger alert popup
-flammablebump.game           — currently pinned game name
-flammablebump.streamTitle    — current stream title
-flammablebump.hype           — hype meter value (0–100)
+flammablebump.followers       — follower count
+flammablebump.subs            — subscriber count
+flammablebump.twitchViewers   — Twitch viewer count (separate)
+flammablebump.kickViewers     — Kick viewer count (separate)
+flammablebump.youtubeViewers  — YouTube viewer count (red, shown in place of Twitch)
+flammablebump.alert           — JSON payload to trigger alert popup
+flammablebump.game            — currently pinned game name
+flammablebump.streamTitle     — current stream title
+flammablebump.hype            — hype meter value (0–100)
 ```
 
 ### Streamer.bot Event Flow
@@ -122,11 +123,13 @@ flammablebump:hypefull    — hype meter hit 100%
 ```
 data-stat="followers"      — renders formatted follower count
 data-stat="subs"           — renders formatted sub count
-data-stat="viewers"        — renders combined Twitch+Kick viewers
-data-stat="twitchViewers"  — renders Twitch-only viewers
-data-stat="kickViewers"    — renders Kick-only viewers
-data-twitch                — renders twitch.tv/FlammableBump
-data-kick                  — renders kick.com/FlammableBump
+data-stat="viewers"         — renders combined Kick+YouTube viewers
+data-stat="twitchViewers"   — renders Twitch-only viewers
+data-stat="kickViewers"     — renders Kick-only viewers
+data-stat="youtubeViewers"  — renders YouTube-only viewers (red)
+data-twitch                 — renders twitch.tv/FlammableBump
+data-kick                   — renders kick.com/FlammableBump
+data-youtube                — renders youtube.com/@flamablebump
 data-display-name          — renders FLAMMABLEBUMP
 data-game                  — renders current game (rotates from config)
 data-alert-root            — marks the alert container element
@@ -160,8 +163,9 @@ window.FLAMMABLEBUMP_CONFIG = {
     reconnectMs: 3000
   },
   links: {
-    twitch: "twitch.tv/FlammableBump",
-    kick:   "kick.com/FlammableBump"
+    twitch:  "twitch.tv/FlammableBump",
+    kick:    "kick.com/FlammableBump",
+    youtube: "youtube.com/@flamablebump"
   }
 };
 ```

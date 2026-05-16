@@ -1,17 +1,18 @@
 (function () {
   const config  = window.FLAMMABLEBUMP_CONFIG || {};
   const params  = new URLSearchParams(window.location.search);
-  const defs    = Object.assign({ followers:114, subs:1, twitchViewers:0, kickViewers:0 }, config.defaults || {});
+  const defs    = Object.assign({ followers:114, subs:1, twitchViewers:0, kickViewers:0, youtubeViewers:0 }, config.defaults || {});
   const goalCfg = Object.assign({ current:0, target:10, label:"Sub Goal" }, config.subGoal || {});
 
   const state = {
-    followers:     readNumber("followers",     defs.followers),
-    subs:          readNumber("subs",          defs.subs),
-    twitchViewers: readNumber("twitchViewers", defs.twitchViewers),
-    kickViewers:   readNumber("kickViewers",   defs.kickViewers),
-    peakViewers:   readNumber("peakViewers",   0),
-    subGoal:       readNumber("subGoal",       goalCfg.current),
-    subGoalTarget: readNumber("subGoalTarget", goalCfg.target),
+    followers:      readNumber("followers",      defs.followers),
+    subs:           readNumber("subs",           defs.subs),
+    twitchViewers:  readNumber("twitchViewers",  defs.twitchViewers),
+    kickViewers:    readNumber("kickViewers",     defs.kickViewers),
+    youtubeViewers: readNumber("youtubeViewers",  defs.youtubeViewers),
+    peakViewers:    readNumber("peakViewers",     0),
+    subGoal:        readNumber("subGoal",         goalCfg.current),
+    subGoalTarget:  readNumber("subGoalTarget",   goalCfg.target),
   };
 
   function readNumber(key, fallback) {
@@ -39,20 +40,22 @@
   }
 
   function renderStats() {
-    const combined = (Number(state.twitchViewers)||0) + (Number(state.kickViewers)||0);
+    const combined = (Number(state.kickViewers)||0) + (Number(state.youtubeViewers)||0);
     if (combined > state.peakViewers) {
       state.peakViewers = combined;
       localStorage.setItem("flammablebump.peakViewers", combined);
     }
-    setAll("[data-stat='followers']",     fmt(state.followers));
-    setAll("[data-stat='subs']",          fmt(state.subs));
-    setAll("[data-stat='viewers']",       fmt(combined));
-    setAll("[data-stat='twitchViewers']", fmt(state.twitchViewers));
-    setAll("[data-stat='kickViewers']",   fmt(state.kickViewers));
-    setAll("[data-stat='peakViewers']",   fmt(state.peakViewers));
-    setAll("[data-twitch]",       config.links?.twitch  || "twitch.tv/FlammableBump");
-    setAll("[data-kick]",         config.links?.kick    || "kick.com/FlammableBump");
-    setAll("[data-display-name]", config.displayName    || "FLAMMABLEBUMP");
+    setAll("[data-stat='followers']",      fmt(state.followers));
+    setAll("[data-stat='subs']",           fmt(state.subs));
+    setAll("[data-stat='viewers']",        fmt(combined));
+    setAll("[data-stat='twitchViewers']",  fmt(state.twitchViewers));
+    setAll("[data-stat='kickViewers']",    fmt(state.kickViewers));
+    setAll("[data-stat='youtubeViewers']", fmt(state.youtubeViewers));
+    setAll("[data-stat='peakViewers']",    fmt(state.peakViewers));
+    setAll("[data-twitch]",       config.links?.twitch   || "twitch.tv/FlammableBump");
+    setAll("[data-kick]",         config.links?.kick     || "kick.com/FlammableBump");
+    setAll("[data-youtube]",      config.links?.youtube  || "youtube.com/@flamablebump");
+    setAll("[data-display-name]", config.displayName     || "FLAMMABLEBUMP");
     renderGoal();
   }
 

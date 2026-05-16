@@ -39,11 +39,11 @@
 
     /* Combined viewers shows platform split below */
     .stat-card.combined-card {
-      background: linear-gradient(135deg, rgba(255,140,0,0.18), rgba(83,252,73,0.06), rgba(6,3,0,0.7));
+      background: linear-gradient(135deg, rgba(255,85,85,0.15), rgba(83,252,73,0.06), rgba(6,3,0,0.7));
       flex: 1.3;
     }
     .stat-card.combined-card::after {
-      background: linear-gradient(90deg, transparent, var(--orange-bright), #7fff78, transparent);
+      background: linear-gradient(90deg, transparent, #FF5555, #7fff78, transparent);
     }
   </style>
 </head>
@@ -68,9 +68,9 @@
       <div class="stat-value" data-stat="subs">0</div>
     </div>
 
-    <div class="stat-card twitch-card">
-      <div class="stat-label">Twitch</div>
-      <div class="stat-value" data-stat="twitchViewers">0</div>
+    <div class="stat-card youtube-card">
+      <div class="stat-label">YouTube</div>
+      <div class="stat-value" data-stat="youtubeViewers">0</div>
     </div>
 
     <div class="stat-card kick-card">
@@ -79,7 +79,7 @@
     </div>
 
     <div class="stat-card combined-card">
-      <div class="stat-label">Viewers (T+K)</div>
+      <div class="stat-label">Viewers (K+YT)</div>
       <div class="stat-value" data-stat="viewers">0</div>
     </div>
   </section>

@@ -33,6 +33,26 @@ Kick:
   2. Click "Add Account" and log in with your Kick account
   TODO: Your Kick channel name = FlammableBump (update in assets/config.js if different)
 
+YouTube:
+  1. Go to: Platforms → YouTube → Accounts
+  2. Click "Add Account" — this opens a Google OAuth login in your browser
+  3. Log in with your Google account that owns the YouTube channel
+     IMPORTANT: If your channel is a Brand Account (not a personal channel),
+     you must log in with the primary Google account that manages it.
+     YouTube does not allow Brand Account direct OAuth — you authenticate
+     with the owner account and Streamer.bot then accesses the brand channel.
+  4. After logging in you'll see "Broadcaster" and optionally "Bot" account slots.
+     For most setups, Broadcaster is all you need.
+  5. Enable "Auto Connect" so Streamer.bot reconnects on startup.
+  6. Under Platforms → YouTube → Settings, enable:
+       - Track Live Chat
+       - Track Viewer Count (StatisticsUpdate events)
+  7. Streamer.bot streams YouTube via the YouTube Data API v3 —
+     viewer count updates may be delayed 60–90 seconds vs real-time Twitch.
+  NOTE: YouTube requires an active broadcast (live stream) to receive events.
+        Events won't fire during test/offline mode the way Twitch does.
+  TODO: Your YouTube channel = youtube.com/@flamablebump (note: single 'm')
+
 
 STEP 3 — CREATE YOUR ACTIONS
 ------------------------------
@@ -111,6 +131,8 @@ OBS Forum:              https://obsproject.com/forum
 Google Fonts:           https://fonts.google.com
 Twitch Developer:       https://dev.twitch.tv
 Kick:                   https://kick.com/dashboard
+YouTube Studio:         https://studio.youtube.com
+Streamer.bot YouTube:   https://docs.streamer.bot/guide/platforms/youtube
 
 
 PLACEHOLDER CHECKLIST — FILL THESE IN BEFORE GOING LIVE
@@ -120,7 +142,9 @@ PLACEHOLDER CHECKLIST — FILL THESE IN BEFORE GOING LIVE
 [ ] assets/config.js       → streamerbot.host (your PC's local IP if OBS is on a different machine)
 [ ] assets/config.js       → streamerbot.port (your SB WebSocket port, default 8080)
 [ ] assets/config.js       → links.twitch and links.kick (your full channel URLs)
+[ ] assets/config.js       → links.youtube (already set to youtube.com/@flamablebump — confirm spelling)
 [ ] control-panel.html     → SB_GAME_ID (UUID from your Streamer.bot "Game Switch" action)
 [ ] control-panel.html     → SB_ALERT_ID (UUID from your Streamer.bot "Fire Alert" action)
+[ ] Platforms → YouTube    → Add Google account, enable Auto Connect, enable Track Live Chat + Viewer Count
 
 ================================================
