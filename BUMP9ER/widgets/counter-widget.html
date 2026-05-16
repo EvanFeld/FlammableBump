@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FLAMMABLEBUMP — Counter Widget</title>
+  <link rel="stylesheet" href="../assets/theme.css">
+  <style>
+    body { width: 860px; height: 100px; }
+
+    .counter-bar {
+      display: flex;
+      align-items: stretch;
+      gap: 8px;
+      width: 860px;
+      height: 100px;
+      padding: 12px;
+      clip-path: var(--clip-md);
+    }
+
+    .brand-block {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 16px 0 4px;
+      border-right: 1px solid var(--border);
+      min-width: 168px;
+      flex-shrink: 0;
+    }
+    .brand-block .label { font-size: 10px; display: flex; align-items: center; gap: 5px; }
+    .brand-block .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #6fdc88; animation: pulse 1.6s ease-in-out infinite; flex-shrink: 0; }
+    .brand-block .brand { font-size: 26px; line-height: 1.1; }
+
+    .stat-row { flex: 1; gap: 7px; }
+
+    .stat-card { min-width: 0; flex: 1; height: 76px; padding: 6px 12px; }
+    .stat-value { font-size: 32px; line-height: 1.1; }
+    .stat-label { font-size: 10px; }
+
+    /* Combined viewers shows platform split below */
+    .stat-card.combined-card {
+      background: linear-gradient(135deg, rgba(255,140,0,0.18), rgba(83,252,73,0.06), rgba(6,3,0,0.7));
+      flex: 1.3;
+    }
+    .stat-card.combined-card::after {
+      background: linear-gradient(90deg, transparent, var(--orange-bright), #7fff78, transparent);
+    }
+  </style>
+</head>
+<body>
+<main class="counter-bar glass">
+  <div class="brand-block">
+    <div class="label">
+      <span class="live-dot"></span>
+      Live
+    </div>
+    <div class="brand" data-display-name>FLAMMABLEBUMP</div>
+  </div>
+
+  <section class="stat-row">
+    <div class="stat-card">
+      <div class="stat-label">Followers</div>
+      <div class="stat-value" data-stat="followers">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Subs</div>
+      <div class="stat-value" data-stat="subs">0</div>
+    </div>
+
+    <div class="stat-card twitch-card">
+      <div class="stat-label">Twitch</div>
+      <div class="stat-value" data-stat="twitchViewers">0</div>
+    </div>
+
+    <div class="stat-card kick-card">
+      <div class="stat-label">Kick</div>
+      <div class="stat-value" data-stat="kickViewers">0</div>
+    </div>
+
+    <div class="stat-card combined-card">
+      <div class="stat-label">Viewers (T+K)</div>
+      <div class="stat-value" data-stat="viewers">0</div>
+    </div>
+  </section>
+</main>
+<script src="../assets/config.js"></script>
+<script src="../assets/overlay.js"></script>
+<script src="../assets/streamerbot.js"></script>
+</body>
+</html>

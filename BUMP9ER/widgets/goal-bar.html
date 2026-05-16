@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FLAMMABLEBUMP — Goal Bar</title>
+  <link rel="stylesheet" href="../assets/theme.css">
+  <style>
+    body { width: 860px; height: 80px; }
+
+    .goal-widget {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      width: 860px;
+      height: 80px;
+      padding: 10px 18px;
+      clip-path: var(--clip-md);
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .bar-label {
+      width: 80px;
+      flex-shrink: 0;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 10px;
+    }
+
+    .goal-fill { }
+
+    .hype-fill { }
+
+    .bar-value {
+      width: 80px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+    .bar-row.goal-row .bar-value { color: var(--blue-bright); }
+    .bar-row.hype-row .bar-value { color: #ff6eb4; }
+
+    .hype-label { color: #ff6eb4; }
+  </style>
+</head>
+<body>
+<main class="goal-widget glass" data-hype-full>
+  <!-- Sub Goal row -->
+  <div class="bar-row goal-row">
+    <div class="bar-label label" data-goal-label>Sub Goal</div>
+    <div class="progress-track">
+      <div class="progress-fill goal-fill" data-goal-fill style="width:0%"></div>
+    </div>
+    <div class="bar-value" data-goal-value>0 / 100</div>
+  </div>
+
+  <!-- Hype meter row -->
+  <div class="bar-row hype-row">
+    <div class="bar-label label hype-label">Hype</div>
+    <div class="progress-track">
+      <div class="progress-fill hype-fill" data-hype-fill style="width:0%"></div>
+    </div>
+    <div class="bar-value bar-value" data-hype-value>0%</div>
+  </div>
+</main>
+<script src="../assets/config.js"></script>
+<script src="../assets/overlay.js"></script>
+<script src="../assets/interactions.js"></script>
+<script src="../assets/streamerbot.js"></script>
+</body>
+</html>

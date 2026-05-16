@@ -1,0 +1,126 @@
+================================================
+  FLAMMABLEBUMP OVERLAY — STREAMER.BOT SETUP
+================================================
+
+DOWNLOAD & INSTALL
+------------------
+Streamer.bot download:   https://streamer.bot
+Streamer.bot docs:       https://docs.streamer.bot
+Streamer.bot Discord:    https://discord.gg/Vah2XzJKF   (best support)
+
+
+STEP 1 — ENABLE THE WEBSOCKET SERVER
+--------------------------------------
+1. Open Streamer.bot
+2. Go to:  Servers/Clients → WebSocket Server
+3. Check "Auto Start" and click "Start Server"
+4. Default port: 8080
+   NOTE: If you change the port, update it in assets/config.js:
+         port: 8080   ← change this to match
+
+TODO: Fill in your actual port if different from 8080
+
+
+STEP 2 — CONNECT YOUR PLATFORMS
+---------------------------------
+Twitch:
+  1. Go to: Platforms → Twitch → Accounts
+  2. Click "Add Account" and log in with your Twitch account
+  TODO: Your Twitch channel name = FlammableBump (update in assets/config.js if different)
+
+Kick:
+  1. Go to: Platforms → Kick → Accounts
+  2. Click "Add Account" and log in with your Kick account
+  TODO: Your Kick channel name = FlammableBump (update in assets/config.js if different)
+
+
+STEP 3 — CREATE YOUR ACTIONS
+------------------------------
+You need two actions in Streamer.bot for the control panel to work:
+
+ACTION 1 — "Game Switch" (sends game/title to overlay)
+  - In the Actions tab, click the + button to create a new action
+  - Name it: "FB Game Switch" (or whatever you like)
+  - Add a sub-action: Core → WebSocket → Broadcast (or use Execute C# Code)
+  - This action receives { game, title } from the control panel
+  - After creating it, right-click the action → Copy ID
+  TODO: Paste that ID into widgets/control-panel.html:
+        const SB_GAME_ID = "PLACEHOLDER-GAME-ACTION-ID";
+        Replace PLACEHOLDER-GAME-ACTION-ID with your actual UUID
+
+ACTION 2 — "Fire Alert" (broadcasts alert to OBS browser sources)
+  - Create another action: "FB Fire Alert"
+  - Add a sub-action: WebSocket → Broadcast
+    - Channel: flammablebump:alert  (or use a Custom Event broadcast)
+  - After creating it, right-click the action → Copy ID
+  TODO: Paste that ID into widgets/control-panel.html:
+        const SB_ALERT_ID = "PLACEHOLDER-ALERT-ACTION-ID";
+        Replace PLACEHOLDER-ALERT-ACTION-ID with your actual UUID
+
+
+STEP 4 — OBS SETUP
+--------------------
+Make sure the overlay server is running first:
+  Double-click start-overlay.bat
+  Then go to http://localhost:3001 in your browser to see all URLs
+
+In OBS:
+  1. Add a Browser Source for each scene/widget
+  2. Check "Local file" OFF — use the http://localhost:3001/... URLs
+  3. Check "Shutdown source when not visible" ON for scenes
+  4. Check "Refresh browser when scene becomes active" ON for scenes
+  TODO: Your OBS port for Browser Source interactions, if using OBS WebSocket:
+        Default OBS WebSocket port = 4455 (only needed for advanced automation)
+
+Scene URLs (copy these into OBS Browser Sources):
+  http://localhost:3001/scenes/starting-soon.html    (2560×1440)
+  http://localhost:3001/scenes/gameplay-overlay.html (2560×1440)
+  http://localhost:3001/scenes/intermission.html     (2560×1440)
+  http://localhost:3001/scenes/brb.html              (2560×1440)
+  http://localhost:3001/scenes/ending.html           (2560×1440)
+
+Widget URLs:
+  http://localhost:3001/widgets/alert-box.html       (960×240)
+  http://localhost:3001/widgets/chatbox.html         (500×780)
+  http://localhost:3001/widgets/counter-widget.html  (860×100)
+  http://localhost:3001/widgets/goal-bar.html        (860×80)
+  http://localhost:3001/widgets/hype-meter.html      (860×80)
+  http://localhost:3001/widgets/viewer-list.html     (320×600)
+  http://localhost:3001/widgets/webcam-border.html   (your cam size)
+
+Control Panel (open in your browser, NOT in OBS):
+  http://localhost:3001/widgets/control-panel.html
+
+
+STEP 5 — TEST EVERYTHING
+--------------------------
+1. Run start-overlay.bat
+2. Open the control panel in your browser
+3. Check the SB status dot in the top-left — should go green if SB is running
+4. Click "Follow", "Sub", etc. to test alerts in OBS
+5. Use the Game Switcher to verify game names update across scenes
+
+
+USEFUL LINKS
+-------------
+Streamer.bot home:      https://streamer.bot
+Streamer.bot docs:      https://docs.streamer.bot
+Streamer.bot Discord:   https://discord.gg/Vah2XzJKF
+OBS Project:            https://obsproject.com
+OBS Forum:              https://obsproject.com/forum
+Google Fonts:           https://fonts.google.com
+Twitch Developer:       https://dev.twitch.tv
+Kick:                   https://kick.com/dashboard
+
+
+PLACEHOLDER CHECKLIST — FILL THESE IN BEFORE GOING LIVE
+---------------------------------------------------------
+[ ] assets/config.js       → twitchName (your exact Twitch channel handle)
+[ ] assets/config.js       → kickName (your exact Kick channel handle)
+[ ] assets/config.js       → streamerbot.host (your PC's local IP if OBS is on a different machine)
+[ ] assets/config.js       → streamerbot.port (your SB WebSocket port, default 8080)
+[ ] assets/config.js       → links.twitch and links.kick (your full channel URLs)
+[ ] control-panel.html     → SB_GAME_ID (UUID from your Streamer.bot "Game Switch" action)
+[ ] control-panel.html     → SB_ALERT_ID (UUID from your Streamer.bot "Fire Alert" action)
+
+================================================
